@@ -6,7 +6,16 @@ export type Env = {
   MEMES_BUCKET: R2Bucket;
   ADMIN_API_TOKEN?: string;
   R2_PUBLIC_URL?: string;
+  ANALYTICS_KV?: KVNamespace;
 };
+
+export interface CatUser {
+  id: string;
+  username: string;
+  display_name: string;
+  role: "judge" | "superadmin";
+  is_active: number;
+}
 
 export type D1MemeRow = {
   id: string;
@@ -26,6 +35,7 @@ export type D1MemeRow = {
   rights_note: string | null;
   shown_count: number;
   share_count: number;
+  likes_count: number;
   random_key: number;
 };
 
@@ -89,7 +99,8 @@ export const normalizeRow = (env: Env, row: D1MemeRow): Meme => ({
   input_method: (row.input_method as Meme["input_method"]) || "url",
   uploaded_at: row.uploaded_at || new Date().toISOString(),
   share_text: row.share_text || "Spawned from Meme Capsule",
-  rights_note: row.rights_note || undefined
+  rights_note: row.rights_note || undefined,
+  likes_count: row.likes_count ?? 0
 });
 
 export const getRandomMeme = async (env: Env): Promise<Meme | null> => {

@@ -23,7 +23,7 @@ Current implementation includes:
 - Mobile-first meme capsule UI in `src/App.tsx`.
 - Reveal animation and polished responsive styling in `src/styles.css`.
 - Local curated starter meme data in `src/data/fallbackMemes.ts`.
-- Share, save, favorite, Daily Drop, rarity badges, and local LOL reactions.
+- Share, save, global Likes (with SQLite D1 sync & local pre-liked state caching), Daily Drop, rarity badges, and local LOL reactions.
 - Cloudflare Pages Functions in `functions/api/random-meme.ts` and `functions/api/daily-meme.ts`.
 - PWA manifest, icon, service worker, and production headers in `public/`.
 - Public UX cleanup: one repeat CTA only, shown as `Spawn Another` after a meme is visible.
@@ -44,8 +44,12 @@ Backend (Phase 2 — COMPLETE):
 - `.dev.vars` configured with `ADMIN_API_TOKEN` and `R2_PUBLIC_URL`.
 - Old `functions/_shared/supabase.ts` is still present as an unused archive file (no active imports).
 - Admin dashboard enhanced with Backend/Local mode badges, active meme count, and R2_PUBLIC_URL warnings.
+- Continuous AI Judging Mode in `/curate`: Universal vision model compatibility engine (`aiJudgeClient.ts`) supporting any vision model (Muse Glimmer 30B, Kimi K3, Llama Vision, Qwen-VL) with adaptive inference fallbacks and robust JSON parsing.
+- Judge Account Management (`CurateAccountModal.tsx`, `/api/curate/account`): Self-service username, display name, and password management with strict judge-level session isolation.
+- Judge-Isolated AI Presets (`cat_judge_ai_presets`, `/api/curate/ai-presets`): Judges can save and switch between private model presets with strict backend database and namespaced storage isolation.
+- Nuanced Meme Authenticity Evaluation (`aiJudgePrompt.ts`): Cultural intent protocol distinguishing legitimate meme forms (captioned, image-only reaction, absurdist/surreal shitposts) from ordinary non-meme photographs.
 
-Git: Connected to `https://github.com/bbethical010-glitch/meme-capsule` on branch `main`.
+Git: Connected to `https://github.com/editorav010-dev/Meme-Capsule` on branch `main`.
 
 Verified command:
 
@@ -63,7 +67,7 @@ These rules are locked unless the owner explicitly changes them:
 - Only owner-curated, approved memes are allowed.
 - Keep the app minimal, fast, playful, and uncluttered.
 - No comments, feeds, accounts, followers, chat, or public uploads in v1.
-- User favorites and LOL reactions are local-device only for now.
+- LOL reactions are local-device only; Likes are global and sync with the D1 database in real-time.
 - Launch as a PWA before considering Play Store or native wrappers.
 
 ## Current Phase
